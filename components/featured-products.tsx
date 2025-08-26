@@ -2,19 +2,9 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { ServiceCard } from "./service-card"
+import { ServiceCard, Service } from "./service-card"
 import { ServiceModal } from "./service-modal"
 import { Reveal } from "./reveal"
-
-type Service = {
-  id: string
-  name: string
-  description: string
-  image: string
-  badge: "Popular" | "Advanced" | "Essential"
-  features: string[]
-  details: string[]
-}
 
 const featuredServices: Service[] = [
   {
@@ -125,7 +115,9 @@ export function FeaturedProducts() {
         </div>
       </div>
 
-      <ServiceModal service={selectedService} isOpen={isModalOpen} onClose={closeModal} />
+      {selectedService && (
+        <ServiceModal service={selectedService} isOpen={isModalOpen} onClose={closeModal} />
+      )}
     </section>
   )
 }

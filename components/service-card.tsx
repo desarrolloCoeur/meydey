@@ -6,16 +6,21 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
+// Define the Service type
+export type Service = {
+  id: string
+  name: string
+  description: string
+  image: string
+  badge: "Popular" | "Advanced" | "Essential"
+  features: string[]
+  details: string[]
+}
+
+// Props for the ServiceCard component
 interface ServiceCardProps {
-  service: {
-    id: string
-    name: string
-    description: string
-    image: string
-    badge: "Popular" | "Advanced" | "Essential"
-    features: string[]
-  }
-  onServiceDetails: (service: unknown) => void
+  service: Service
+  onServiceDetails: (service: Service) => void
 }
 
 export function ServiceCard({ service, onServiceDetails }: ServiceCardProps) {
@@ -58,7 +63,10 @@ export function ServiceCard({ service, onServiceDetails }: ServiceCardProps) {
 
           <div className="flex flex-wrap gap-2 mb-4">
             {service.features.slice(0, 3).map((feature, index) => (
-              <span key={index} className="text-xs px-2 py-1 bg-neutral-100 text-neutral-700 rounded-full">
+              <span
+                key={index}
+                className="text-xs px-2 py-1 bg-neutral-100 text-neutral-700 rounded-full"
+              >
                 {feature}
               </span>
             ))}
