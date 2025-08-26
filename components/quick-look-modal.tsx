@@ -6,8 +6,20 @@ import Image from "next/image"
 import { X, ChevronLeft, ChevronRight, Plus } from "lucide-react"
 import { BlurPanel } from "./blur-panel"
 
+interface Product {
+  id: string
+  name: string
+  price: string
+  image: string
+  badge?: "New" | "Back in stock" | "Limited"
+  materials: string[]
+  swatches: { name: string; color: string }[]
+  quickLookImages: string[]
+  dimensions: string
+}
+
 interface QuickLookModalProps {
-  product: any
+  product: Product | null
   isOpen: boolean
   onClose: () => void
 }
@@ -81,7 +93,7 @@ export function QuickLookModal({ product, isOpen, onClose }: QuickLookModalProps
 
                   {/* Image Thumbnails */}
                   <div className="flex gap-2">
-                    {product.quickLookImages.map((image: string, index: number) => (
+                    {product.quickLookImages.map((image, index) => (
                       <button
                         key={index}
                         className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
@@ -130,7 +142,7 @@ export function QuickLookModal({ product, isOpen, onClose }: QuickLookModalProps
                     <div>
                       <h4 className="text-sm font-medium text-neutral-900 mb-3">FINISH</h4>
                       <div className="flex gap-3">
-                        {product.swatches.map((swatch: any, index: number) => (
+                        {product.swatches.map((swatch, index) => (
                           <button
                             key={index}
                             className={`w-8 h-8 rounded-full border-2 transition-all duration-200 relative group ${

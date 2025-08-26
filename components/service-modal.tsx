@@ -6,8 +6,18 @@ import { X, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
+type Service = {
+  id: string
+  name: string
+  description: string
+  image: string
+  badge: "Popular" | "Advanced" | "Essential"
+  features?: string[]
+  details?: string[]
+}
+
 interface ServiceModalProps {
-  service: any
+  service: Service | null
   isOpen: boolean
   onClose: () => void
 }
@@ -15,7 +25,7 @@ interface ServiceModalProps {
 export function ServiceModal({ service, isOpen, onClose }: ServiceModalProps) {
   if (!service) return null
 
-  const badgeVariants = {
+  const badgeVariants: Record<Service["badge"], string> = {
     Popular: "bg-green-100 text-green-800",
     Advanced: "bg-blue-100 text-blue-800",
     Essential: "bg-amber-100 text-amber-800",
@@ -73,7 +83,7 @@ export function ServiceModal({ service, isOpen, onClose }: ServiceModalProps) {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-neutral-900">Service Details</h3>
                 <ul className="space-y-2">
-                  {service.details?.map((detail: string, index: number) => (
+                  {service.details?.map((detail, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <Check className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                       <span className="text-neutral-700 text-sm">{detail}</span>

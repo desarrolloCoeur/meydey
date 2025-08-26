@@ -113,8 +113,8 @@ export function MaterialsSection() {
         <Reveal delay={0.3}>
           <blockquote className="pl-0 py-4">
             <p className="text-xl text-white leading-relaxed italic lg:text-base font-medium">
-              "We believe in creating furniture that transcends trends—pieces that become more beautiful with age,
-              carrying stories and memories through generations."
+              &quot;We believe in creating furniture that transcends trends—pieces that become more beautiful with age,
+              carrying stories and memories through generations.&quot;
             </p>
             <footer className="mt-4 text-sm text-white/70">— KATACHI Studio</footer>
           </blockquote>

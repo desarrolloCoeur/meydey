@@ -98,7 +98,7 @@ export function NewsletterSection() {
                   </div>
                   <h3 className="text-xl font-semibold text-neutral-900 mb-2">Welcome to KATACHI</h3>
                   <p className="text-neutral-600">
-                    Thank you for subscribing. You'll receive our next newsletter with exclusive insights and new
+                    Thank you for subscribing. You&apos;ll receive our next newsletter with exclusive insights and new
                     arrivals.
                   </p>
                 </motion.div>

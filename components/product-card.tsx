@@ -4,19 +4,21 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 
+interface Product {
+  id: string
+  name: string
+  price: string
+  image: string
+  badge?: "New" | "Back in stock" | "Limited"
+  materials: string[]
+  swatches: { name: string; color: string }[]
+  quickLookImages: string[]
+  dimensions: string
+}
+
 interface ProductCardProps {
-  product: {
-    id: string
-    name: string
-    price: string
-    image: string
-    badge?: "New" | "Back in stock" | "Limited"
-    materials: string[]
-    swatches: { name: string; color: string }[]
-    quickLookImages: string[]
-    dimensions: string
-  }
-  onQuickLook: (product: any) => void
+  product: Product
+  onQuickLook: (product: Product) => void
 }
 
 export function ProductCard({ product, onQuickLook }: ProductCardProps) {
@@ -44,6 +46,14 @@ export function ProductCard({ product, onQuickLook }: ProductCardProps) {
           </span>
         </div>
       )}
+
+      {/* Quick Look Button */}
+      <button
+        onClick={() => onQuickLook(product)}
+        className="absolute top-4 right-4 z-20 bg-white/80 text-sm px-3 py-1 rounded-full shadow hover:bg-white"
+      >
+        Quick Look
+      </button>
 
       {/* Product Image */}
       <div className="relative overflow-hidden" style={{ aspectRatio: "25/36" }}>

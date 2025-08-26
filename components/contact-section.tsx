@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Check } from "lucide-react"
-import { Reveal } from "./reveal"
+import type React from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Check } from "lucide-react";
+import { Reveal } from "./reveal";
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -12,42 +12,42 @@ export function ContactSection() {
     email: "",
     phone: "",
     message: "",
-  })
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required"
-    if (!formData.email.trim()) newErrors.email = "Email is required"
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email"
+      newErrors.email = "Please enter a valid email";
     }
-    if (!formData.phone.trim()) newErrors.phone = "Phone is required"
-    if (!formData.message.trim()) newErrors.message = "Message is required"
+    if (!formData.phone.trim()) newErrors.phone = "Phone is required";
+    if (!formData.message.trim()) newErrors.message = "Message is required";
 
-    return newErrors
-  }
+    return newErrors;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const newErrors = validateForm()
+    e.preventDefault();
+    const newErrors = validateForm();
 
     if (Object.keys(newErrors).length === 0) {
-      setIsSubmitted(true)
-      setErrors({})
+      setIsSubmitted(true);
+      setErrors({});
     } else {
-      setErrors(newErrors)
+      setErrors(newErrors);
     }
-  }
+  };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }))
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
-  }
+  };
 
   return (
     <section className="py-24 lg:py-32 bg-white">
@@ -63,7 +63,8 @@ export function ContactSection() {
               <div className="col-span-12 lg:col-span-6">
                 <div className="h-px bg-[#1b96a2] mb-4"></div>
                 <p className="text-sm font-light text-neutral-600 leading-relaxed">
-                  Ready to secure your business? Contact us for personalized security and technology solutions.
+                  Ready to secure your business? Contact us for personalized
+                  security and technology solutions.
                 </p>
               </div>
             </div>
@@ -83,13 +84,19 @@ export function ContactSection() {
                       <input
                         type="text"
                         value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("name", e.target.value)
+                        }
                         className={`w-full px-0 py-3 bg-transparent border-0 border-b text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#1b96a2] transition-colors duration-200 ${
                           errors.name ? "border-red-500" : "border-neutral-300"
                         }`}
                         placeholder="Enter your full name"
                       />
-                      {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+                      {errors.name && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {errors.name}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -99,13 +106,19 @@ export function ContactSection() {
                       <input
                         type="email"
                         value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("email", e.target.value)
+                        }
                         className={`w-full px-0 py-3 bg-transparent border-0 border-b text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#1b96a2] transition-colors duration-200 ${
                           errors.email ? "border-red-500" : "border-neutral-300"
                         }`}
                         placeholder="Enter your email"
                       />
-                      {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+                      {errors.email && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -116,13 +129,19 @@ export function ContactSection() {
                     <input
                       type="tel"
                       value={formData.phone}
-                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("phone", e.target.value)
+                      }
                       className={`w-full px-0 py-3 bg-transparent border-0 border-b text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#1b96a2] transition-colors duration-200 ${
                         errors.phone ? "border-red-500" : "border-neutral-300"
                       }`}
                       placeholder="Enter your phone number"
                     />
-                    {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+                    {errors.phone && (
+                      <p className="text-xs text-red-500 mt-1">
+                        {errors.phone}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -131,14 +150,20 @@ export function ContactSection() {
                     </label>
                     <textarea
                       value={formData.message}
-                      onChange={(e) => handleInputChange("message", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("message", e.target.value)
+                      }
                       placeholder="Tell us about your security needs..."
                       rows={4}
                       className={`w-full px-0 py-3 bg-transparent border-0 border-b text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#1b96a2] transition-colors duration-200 resize-none ${
                         errors.message ? "border-red-500" : "border-neutral-300"
                       }`}
                     />
-                    {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message}</p>}
+                    {errors.message && (
+                      <p className="text-xs text-red-500 mt-1">
+                        {errors.message}
+                      </p>
+                    )}
                   </div>
 
                   <div className="pt-6">
@@ -162,10 +187,12 @@ export function ContactSection() {
                   <div className="w-12 h-12 border-2 border-[#1b96a2] rounded-full flex items-center justify-center mb-6">
                     <Check size={20} className="text-[#1b96a2]" />
                   </div>
-                  <h3 className="text-2xl font-light text-neutral-900 mb-4">Message Sent</h3>
+                  <h3 className="text-2xl font-light text-neutral-900 mb-4">
+                    Message Sent
+                  </h3>
                   <p className="text-sm font-light text-neutral-600 leading-relaxed">
-                    Thank you for contacting MEYDEY. We'll get back to you within 24 hours to discuss your security
-                    needs.
+                    Thank you for contacting MEYDEY. We&apos;ll get back to you
+                    within 24 hours to discuss your security needs.
                   </p>
                 </motion.div>
               )}
@@ -173,23 +200,35 @@ export function ContactSection() {
 
             <div className="lg:col-span-5 space-y-8">
               <div>
-                <h3 className="text-xs font-light text-neutral-600 mb-4 uppercase tracking-wide">Headquarters</h3>
-                <p className="text-sm font-light text-neutral-900">Colima, Colima, Mexico</p>
+                <h3 className="text-xs font-light text-neutral-600 mb-4 uppercase tracking-wide">
+                  Headquarters
+                </h3>
+                <p className="text-sm font-light text-neutral-900">
+                  Colima, Colima, Mexico
+                </p>
               </div>
 
               <div>
-                <h3 className="text-xs font-light text-neutral-600 mb-4 uppercase tracking-wide">Branch Office</h3>
-                <p className="text-sm font-light text-neutral-900">Bahía de Banderas, Nayarit, Mexico</p>
+                <h3 className="text-xs font-light text-neutral-600 mb-4 uppercase tracking-wide">
+                  Branch Office
+                </h3>
+                <p className="text-sm font-light text-neutral-900">
+                  Bahía de Banderas, Nayarit, Mexico
+                </p>
               </div>
 
               <div>
-                <h3 className="text-xs font-light text-neutral-600 mb-4 uppercase tracking-wide">Service Coverage</h3>
-                <p className="text-sm font-light text-neutral-900">Nationwide service across Mexico</p>
+                <h3 className="text-xs font-light text-neutral-600 mb-4 uppercase tracking-wide">
+                  Service Coverage
+                </h3>
+                <p className="text-sm font-light text-neutral-900">
+                  Nationwide service across Mexico
+                </p>
               </div>
             </div>
           </div>
         </Reveal>
       </div>
     </section>
-  )
+  );
 }

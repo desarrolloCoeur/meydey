@@ -6,13 +6,23 @@ import { ServiceCard } from "./service-card"
 import { ServiceModal } from "./service-modal"
 import { Reveal } from "./reveal"
 
-const featuredServices = [
+type Service = {
+  id: string
+  name: string
+  description: string
+  image: string
+  badge: "Popular" | "Advanced" | "Essential"
+  features: string[]
+  details: string[]
+}
+
+const featuredServices: Service[] = [
   {
     id: "1",
     name: "CCTV Systems",
     description: "Closed-circuit cameras, video analysis, thermal and biometric solutions",
     image: "/assets/13.JPG",
-    badge: "Popular" as const,
+    badge: "Popular",
     features: ["HD Cameras", "Night Vision", "Remote Monitoring", "Cloud Storage"],
     details: [
       "Professional CCTV installation and maintenance",
@@ -27,7 +37,7 @@ const featuredServices = [
     name: "Access Control",
     description: "Pedestrian and vehicular access control systems",
     image: "/assets/control.JPG",
-    badge: "Advanced" as const,
+    badge: "Advanced",
     features: ["Biometric Scanners", "Card Readers", "Vehicle Gates", "Mobile Access"],
     details: [
       "Biometric fingerprint and facial recognition",
@@ -42,7 +52,7 @@ const featuredServices = [
     name: "Fiber Optics & Networks",
     description: "Fiber optic installation, wired and wireless networks, structured cabling",
     image: "/fiber-optic-installation.png",
-    badge: "Essential" as const,
+    badge: "Essential",
     features: ["Fiber Installation", "Network Design", "Wireless Setup", "Cable Management"],
     details: [
       "High-speed fiber optic cable installation",
@@ -55,10 +65,10 @@ const featuredServices = [
 ]
 
 export function FeaturedProducts() {
-  const [selectedService, setSelectedService] = useState<any>(null)
+  const [selectedService, setSelectedService] = useState<Service | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleServiceDetails = (service: any) => {
+  const handleServiceDetails = (service: Service) => {
     setSelectedService(service)
     setIsModalOpen(true)
   }
