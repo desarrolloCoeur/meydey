@@ -5,16 +5,7 @@ import { X, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { getTranslations, type Locale } from "@/lib/translations"
-
-type Service = {
-  id: string
-  name: string
-  description: string
-  image: string
-  badge: "Popular" | "Advanced" | "Essential"
-  features?: string[]
-  details?: string[]
-}
+import type { Service } from "@/components/service-card"
 
 interface ServiceModalProps {
   service: Service | null

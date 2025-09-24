@@ -13,8 +13,8 @@ export type Service = {
   description: string
   image: string
   badge: "Popular" | "Advanced" | "Essential"
-  features: string[]
-  details: string[]
+  features: readonly string[]
+  details: readonly string[]
 }
 
 // Props for the ServiceCard component
