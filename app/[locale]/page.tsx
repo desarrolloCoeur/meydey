@@ -7,13 +7,16 @@ import { AboutSection } from "@/components/about-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { use } from "react"
+import type { Locale } from "@/lib/translations"
 
 type Props = {
   params: Promise<{ locale: string }>
 }
 
 export default function HomePage({ params }: Props) {
-  const { locale } = use(params)
+  const { locale: rawLocale } = use(params)
+
+  const locale: Locale = rawLocale === "es" || rawLocale === "en" ? rawLocale : "en"
 
   return (
     <>
