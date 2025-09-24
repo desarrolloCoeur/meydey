@@ -13,11 +13,11 @@ export function Footer({ locale }: FooterProps) {
   const currentYear = new Date().getFullYear()
 
   const footerLinks = {
-    [t.company]: [
-      { name: t.aboutUs, href: "#about" },
-      { name: t.services, href: "#services" },
-      { name: t.clients, href: "#clients" },
-      { name: t.contact, href: "#contact" },
+    [t.footerCompany]: [
+      { name: t.footerAboutUs, href: "#about" },
+      { name: t.footerServices, href: "#services" },
+      { name: t.footerClients, href: "#clients" },
+      { name: t.footerContact, href: "#contact" },
     ],
   }
 
@@ -66,17 +66,12 @@ export function Footer({ locale }: FooterProps) {
                   <div className="flex items-start">
                     <MapPin size={18} className="mr-3 text-[#1b96a2] mt-0.5 flex-shrink-0" />
                     <div className="space-y-1">
-                      <p className="text-sm text-white/70 font-light">{t.headquarters}: Colima, Colima</p>
-                      <p className="text-sm text-white/70 font-light">
-                        {t.branchOffice}: Valentín Gómez Farías 201-C, Mezcales
-                        <br />
-                        Bahía de Banderas, Nayarit 63735
-                      </p>
+                      <p className="text-sm text-white/70 font-light">{t.headquarters}: Valentín Gómez Farías 201-C, Mezcales Bahía de Banderas, Nayarit 63735</p>                      
                     </div>
                   </div>
                   <div className="flex items-center">
                     <Phone size={18} className="mr-3 text-[#1b96a2] flex-shrink-0" />
-                    <p className="text-sm text-white/70 font-light">(312) 323 64 45</p>
+                    <p className="text-sm text-white/70 font-light">+52 (312) 323 64 45</p>
                   </div>
                   <div className="flex items-center">
                     <MessageCircle size={18} className="mr-3 text-[#25D366] flex-shrink-0" />

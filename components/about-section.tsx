@@ -40,14 +40,8 @@ export function AboutSection({ locale }: AboutSectionProps) {
     {
       icon: Building2,
       title: t.headquarters,
-      location: "Colima, Colima",
+      location: "Valentín Gómez Farías 201-C, Mezcales Bahía de Banderas, Nayarit 63735",
       description: t.mainOperationsCenter,
-    },
-    {
-      icon: MapPin,
-      title: t.branchOffice,
-      location: "Bahía de Banderas, Nayarit",
-      description: t.regionalServiceHub,
     },
   ]
 

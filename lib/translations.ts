@@ -72,6 +72,11 @@ export const translations = {
     termsOfService: "Terms of Service",
     cookies: "Cookies",
     allRightsReserved: "All rights reserved",
+    footerCompany: "Company",
+    footerAboutUs: "About Us",
+    footerServices: "Services",
+    footerClients: "Clients",
+    footerContact: "Contact",
 
     // Clients Section
     clientsTitle: "Our Clients",
@@ -154,7 +159,7 @@ export const translations = {
     networks: "Redes",
 
     // About Section
-    aboutTitle: "Acerca de nosotros",
+    aboutTitle: "Nosotros",
     aboutSubtitle: "8 Años de Excelencia",
     aboutDescription1:
       "Somos una empresa mexicana dedicada a resolver necesidades en seguridad y tecnología a través de soluciones integrales y consultoría especializada.",
@@ -164,7 +169,7 @@ export const translations = {
     headquarters: "Sede Principal",
     branchOffice: "Sucursal",
     mainOperationsCenter: "Centro principal de operaciones",
-    regionalServiceHub: "Centro de servicio regional",
+    regionalServiceHub: "Valentín Gómez Farías 201-C, Mezcales Bahía de Banderas, Nayarit 63735",
     ourValues: "Nuestros Valores",
     excellence: "Excelencia",
     excellenceDesc:
@@ -212,6 +217,11 @@ export const translations = {
     termsOfService: "Términos de Servicio",
     cookies: "Cookies",
     allRightsReserved: "Todos los derechos reservados",
+    footerCompany: "Empresa",
+    footerAboutUs: "Nosotros",
+    footerServices: "Servicios",
+    footerClients: "Clientes",
+    footerContact: "Contacto",
 
     // Clients Section
     clientsTitle: "Nuestros Clientes",
