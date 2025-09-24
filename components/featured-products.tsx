@@ -1,60 +1,48 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { ServiceCard, Service } from "./service-card"
+import { ServiceCard, type Service } from "./service-card"
 import { ServiceModal } from "./service-modal"
 import { Reveal } from "./reveal"
+import { getTranslations, type Locale } from "@/lib/translations"
 
-const featuredServices: Service[] = [
-  {
-    id: "1",
-    name: "CCTV Systems",
-    description: "Closed-circuit cameras, video analysis, thermal and biometric solutions",
-    image: "/assets/13.JPG",
-    badge: "Popular",
-    features: ["HD Cameras", "Night Vision", "Remote Monitoring", "Cloud Storage"],
-    details: [
-      "Professional CCTV installation and maintenance",
-      "Advanced video analytics and motion detection",
-      "Thermal imaging for enhanced security",
-      "Biometric access integration",
-      "24/7 remote monitoring capabilities",
-    ],
-  },
-  {
-    id: "2",
-    name: "Access Control",
-    description: "Pedestrian and vehicular access control systems",
-    image: "/assets/control.JPG",
-    badge: "Advanced",
-    features: ["Biometric Scanners", "Card Readers", "Vehicle Gates", "Mobile Access"],
-    details: [
-      "Biometric fingerprint and facial recognition",
-      "RFID and proximity card systems",
-      "Automated vehicle access gates",
-      "Mobile app integration for remote access",
-      "Visitor management systems",
-    ],
-  },
-  {
-    id: "3",
-    name: "Fiber Optics & Networks",
-    description: "Fiber optic installation, wired and wireless networks, structured cabling",
-    image: "/fiber-optic-installation.png",
-    badge: "Essential",
-    features: ["Fiber Installation", "Network Design", "Wireless Setup", "Cable Management"],
-    details: [
-      "High-speed fiber optic cable installation",
-      "Enterprise network design and implementation",
-      "Wireless network optimization",
-      "Structured cabling systems",
-      "Telecommunications tower installation",
-    ],
-  },
-]
+interface FeaturedProductsProps {
+  locale: Locale
+}
 
-export function FeaturedProducts() {
+export function FeaturedProducts({ locale }: FeaturedProductsProps) {
+  const t = getTranslations(locale)
+
+  const featuredServices: Service[] = [
+    {
+      id: "1",
+      name: t.cctvSystems,
+      description: t.cctvDescription,
+      image: "/assets/13.JPG",
+      badge: "Popular",
+      features: [t.hdCameras, t.nightVision, t.remoteMonitoring, t.cloudStorage],
+      details: t.cctvDetails,
+    },
+    {
+      id: "2",
+      name: t.accessControl,
+      description: t.accessControlDescription,
+      image: "/assets/control.JPG",
+      badge: "Advanced",
+      features: [t.biometricScanners, t.cardReaders, t.vehicleGates, t.mobileAccess],
+      details: t.accessControlDetails,
+    },
+    {
+      id: "3",
+      name: t.fiberOptics,
+      description: t.fiberOpticsDescription,
+      image: "/fiber-optic-installation.png",
+      badge: "Essential",
+      features: [t.fiberInstallation, t.networkDesign, t.wirelessSetup, t.cableManagement],
+      details: t.fiberOpticsDetails,
+    },
+  ]
+
   const [selectedService, setSelectedService] = useState<Service | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -83,10 +71,12 @@ export function FeaturedProducts() {
             <div className="mb-20">
               <div className="grid grid-cols-12 gap-6">
                 <div className="col-span-12 lg:col-span-8">
-                  <h2 className="text-5xl lg:text-7xl font-light text-[#203c5c] mb-6 tracking-tight">Services</h2>
+                  <h2 className="text-5xl lg:text-7xl font-light text-[#203c5c] mb-6 tracking-tight">
+                    {t.servicesTitle}
+                  </h2>
                   <div className="w-16 h-px bg-[#1b96a2] mb-8"></div>
                   <p className="text-lg font-light text-neutral-600 leading-relaxed max-w-2xl">
-                    Comprehensive security and technology solutions designed to protect and connect your business.
+                    {t.servicesDescription}
                   </p>
                 </div>
               </div>
@@ -95,28 +85,22 @@ export function FeaturedProducts() {
 
           <div className="grid grid-cols-12 gap-6">
             {featuredServices.map((service, index) => (
-              <motion.div
+              <div
                 key={service.id}
-                className="col-span-12 md:col-span-6 lg:col-span-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                  ease: [0.21, 0.47, 0.32, 0.98],
-                }}
+                className="col-span-12 md:col-span-6 lg:col-span-4 animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <Reveal delay={index * 0.1}>
-                  <ServiceCard service={service} onServiceDetails={handleServiceDetails} />
+                  <ServiceCard service={service} onServiceDetails={handleServiceDetails} locale={locale} />
                 </Reveal>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </div>
 
       {selectedService && (
-        <ServiceModal service={selectedService} isOpen={isModalOpen} onClose={closeModal} />
+        <ServiceModal service={selectedService} isOpen={isModalOpen} onClose={closeModal} locale={locale} />
       )}
     </section>
   )

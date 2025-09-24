@@ -1,11 +1,18 @@
-"use client";
-import Image from "next/image";
-import type React from "react";
+"use client"
+import Image from "next/image"
 
-import { useState } from "react";
-import { Reveal } from "./reveal";
+import { useState, useEffect } from "react"
+import { Reveal } from "./reveal"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { getTranslations, type Locale } from "@/lib/translations"
 
 const clients = [
+  {
+    id: "coca-cola",
+    name: "Coca-Cola",
+    logo: "/coca-cola-logo.png",
+    backgroundImage: "/beverage-factory-production-line.png",
+  },
   {
     id: "colima-government",
     name: "Government of Colima",
@@ -72,42 +79,56 @@ const clients = [
     logo: "/seguros-el-potosi-logo.png",
     backgroundImage: "/insurance-office-professional.png",
   },
-  {
-    id: "diario-colima",
-    name: "Diario de Colima",
-    logo: "/diario-de-colima-logo.png",
-    backgroundImage: "/placeholder-jylpq.png",
-  },
-  {
-    id: "coca-cola",
-    name: "Coca-Cola",
-    logo: "/coca-cola-logo.png",
-    backgroundImage: "/beverage-factory-production-line.png",
-  },
-  {
-    id: "riviera-nayarit",
-    name: "Riviera Nayarit",
-    logo: "/riviera-nayarit-tourism-logo.png",
-    backgroundImage: "/mexican-riviera-coastline-tourism.png",
-  },
-];
+]
 
-export function ClientsSection() {
-  const [hoveredClient, setHoveredClient] = useState<
-    (typeof clients)[0] | null
-  >(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+interface ClientsSectionProps {
+  locale: Locale
+}
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
-  };
+export function ClientsSection({ locale }: ClientsSectionProps) {
+  const t = getTranslations(locale)
+
+  console.log("[v0] ClientsSection locale:", locale)
+  console.log("[v0] ClientsSection translations:", { title: t.clientsTitle, description: t.clientsDescription })
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+
+  useEffect(() => {
+    if (!isAutoPlaying) return
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % Math.ceil(clients.length / 6))
+    }, 4000)
+
+    return () => clearInterval(interval)
+  }, [isAutoPlaying])
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % Math.ceil(clients.length / 6))
+    setIsAutoPlaying(false)
+  }
+
+  const goToPrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + Math.ceil(clients.length / 6)) % Math.ceil(clients.length / 6))
+    setIsAutoPlaying(false)
+  }
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index)
+    setIsAutoPlaying(false)
+  }
+
+  const clientsPerSlide = 6
+  const totalSlides = Math.ceil(clients.length / clientsPerSlide)
+  const visibleClients = clients.slice(currentIndex * clientsPerSlide, (currentIndex + 1) * clientsPerSlide)
 
   return (
     <section className="py-24 lg:py-32 bg-white relative overflow-hidden w-full">
       <div className="w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch min-h-[600px]">
-          {/* top side on mobile */}
-          <div className=" items-stretch block lg:hidden">
+          {/* Mobile header */}
+          <div className="items-stretch block lg:hidden">
             <Reveal>
               <div className="bg-[#203c5c] p-8 lg:p-12 w-full h-full flex items-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-16 h-16 bg-[#1b96a2]/20"></div>
@@ -115,70 +136,88 @@ export function ClientsSection() {
 
                 <div className="relative z-10">
                   <h2 className="text-4xl lg:text-5xl font-light text-white tracking-tight leading-none mb-6">
-                    Our Clients
+                    {t.clientsTitle}
                   </h2>
                   <div className="h-px bg-[#1b96a2] mb-6"></div>
-                  <p className="text-sm font-light text-white/80 leading-relaxed">
-                    Trusted partnerships across Mexico in hospitality,
-                    government, and enterprise sectors. Our comprehensive
-                    security and technology solutions have earned the confidence
-                    of leading organizations nationwide.
-                  </p>
+                  <p className="text-sm font-light text-white/80 leading-relaxed">{t.clientsDescription}</p>
                 </div>
               </div>
             </Reveal>
           </div>
-          {/* Left side - Client Grid */}
-          <div className="flex items-center w-full">
+
+          <div className="flex items-center w-full relative">
             <Reveal>
-              <div className="grid grid-cols-6 gap-px bg-neutral-200 w-[100vw] lg:w-[50vw]">
-                {clients.map((client, index) => {
-                  const sizeClasses = [
-                    "col-span-2 row-span-2", // Large square
-                    "col-span-2 row-span-1", // Wide rectangle
-                    "col-span-2 row-span-1", // Wide rectangle
-                    "col-span-1 row-span-1", // Small square
-                    "col-span-1 row-span-1", // Small square
-                    "col-span-2 row-span-1", // Wide rectangle
-                    "col-span-3 row-span-1", // Wide rectangle
-                    "col-span-3 row-span-2", // Large rectangle
-                    "col-span-3 row-span-1", // Medium rectangle
-                    "col-span-2 row-span-1", // Wide rectangle
-                    "col-span-2 row-span-1", // Wide rectangle
-                    "col-span-2 row-span-1", // Wide rectangle
-                    "col-span-3 row-span-1", // Medium rectangle
-                    "col-span-3 row-span-1", // Medium rectangle
-                  ];
+              <div className="w-[100vw] lg:w-[50vw] relative">
+                {/* Carousel container */}
+                <div className="overflow-hidden">
+                  <div
+                    className="flex transition-transform duration-500 ease-in-out"
+                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                  >
+                    {Array.from({ length: totalSlides }).map((_, slideIndex) => {
+                      const slideClients = clients.slice(
+                        slideIndex * clientsPerSlide,
+                        (slideIndex + 1) * clientsPerSlide,
+                      )
 
-                  const sizeClass = sizeClasses[index % sizeClasses.length];
+                      return (
+                        <div key={slideIndex} className="w-full flex-shrink-0">
+                          <div className="grid grid-cols-3 gap-px bg-neutral-200">
+                            {slideClients.map((client, index) => (
+                              <div
+                                key={client.id}
+                                className="relative bg-white flex items-center justify-center p-6 lg:p-8 relative overflow-hidden aspect-square"
+                              >
+                                <div className="absolute inset-0 ">
+                                  <Image
+                                    src={client.backgroundImage || "/placeholder.svg"}
+                                    alt=""
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
+                                <div className="absolute w-full h-full left-0 top-0 backdrop-blur-sm" />
+                                <Image
+                                  src={client.logo || "/placeholder.svg"}
+                                  alt={client.name}
+                                  width={220}
+                                  height={180}
+                                  className="w-full h-full object-contain relative z-10"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
 
-                  return (
-                    <div
-                      key={client.id}
-                      className={`${sizeClass} bg-white flex items-center justify-center p-4 lg:p-6 relative overflow-hidden group cursor-pointer min-h-[100px] hover:bg-[#1b96a2]/5 transition-all duration-300`}
-                      onMouseEnter={() => setHoveredClient(client)}
-                      onMouseLeave={() => setHoveredClient(null)}
-                      onMouseMove={handleMouseMove}
-                    >
-                      <div className="absolute inset-0">
-                        <Image
-                          src={client.backgroundImage || "/placeholder.svg"}
-                          alt=""
-                          fill
-                          className="object-cover opacity-10"
-                        />
-                      </div>
+                <button
+                  onClick={goToPrev}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#203c5c] hover:bg-[#1b96a2] text-white p-2 rounded-full transition-colors duration-200 z-10"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
 
-                      <Image
-                        src={client.logo || "/placeholder.svg"}
-                        alt={client.name}
-                        width={80}
-                        height={48}
-                        className="max-w-full max-h-full object-contain relative z-10 transition-opacity duration-200 group-hover:opacity-80"
-                      />
-                    </div>
-                  );
-                })}
+                <button
+                  onClick={goToNext}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#203c5c] hover:bg-[#1b96a2] text-white p-2 rounded-full transition-colors duration-200 z-10"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+
+                <div className="flex justify-center mt-6 space-x-2">
+                  {Array.from({ length: totalSlides }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToSlide(index)}
+                      className={`w-3 h-3 rounded-full transition-colors duration-200 ${
+                        index === currentIndex ? "bg-[#1b96a2]" : "bg-neutral-300 hover:bg-neutral-400"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
             </Reveal>
           </div>
@@ -192,41 +231,16 @@ export function ClientsSection() {
 
                 <div className="relative z-10">
                   <h2 className="text-4xl lg:text-5xl font-light text-white tracking-tight leading-none mb-6">
-                    Our Clients
+                    {t.clientsTitle}
                   </h2>
                   <div className="h-px bg-[#1b96a2] mb-6"></div>
-                  <p className="text-sm font-light text-white/80 leading-relaxed">
-                    Trusted partnerships across Mexico in hospitality,
-                    government, and enterprise sectors. Our comprehensive
-                    security and technology solutions have earned the confidence
-                    of leading organizations nationwide.
-                  </p>
+                  <p className="text-sm font-light text-white/80 leading-relaxed">{t.clientsDescription}</p>
                 </div>
               </div>
             </Reveal>
           </div>
         </div>
-
-        {hoveredClient && (
-          <div
-            className="fixed pointer-events-none z-50 transition-opacity duration-200"
-            style={{
-              left: mousePosition.x + 20,
-              top: mousePosition.y - 40,
-            }}
-          >
-            <div className="bg-white shadow-lg p-4 border-2 border-[#1b96a2]/20">
-              <Image
-                src={hoveredClient.logo || "/placeholder.svg"}
-                alt={hoveredClient.name}
-                width={150}
-                height={90}
-                className="object-contain"
-              />
-            </div>
-          </div>
-        )}
       </div>
     </section>
-  );
+  )
 }

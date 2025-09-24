@@ -1,32 +1,21 @@
-"use client";
-import Header from "../components/header"
-import { HeroSection } from "@/components/hero-section";
-import { FeaturedProducts } from "@/components/featured-products";
-import { ClientsSection } from "@/components/clients-section";
-import { AboutSection } from "@/components/about-section";
-import { ContactSection } from "@/components/contact-section";
-import { Footer } from "@/components/footer";
+"use client"
 
-export default function HomePage() {
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+
+export default function RootPage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.replace("/en")
+  }, [router])
+
   return (
-    <>
-      <Header />
-      <main className="min-h-screen">
-        <HeroSection />
-        <div id="about">
-          <AboutSection />
-        </div>
-        <div id="services">
-          <FeaturedProducts />
-        </div>
-        <div id="clients">
-          <ClientsSection />
-        </div>
-        <div id="contact">
-          <ContactSection />
-        </div>
-        <Footer />
-      </main>
-    </>
-  );
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Redirecting...</p>
+      </div>
+    </div>
+  )
 }

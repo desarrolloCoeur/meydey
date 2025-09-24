@@ -1,60 +1,87 @@
-"use client";
+"use client"
 
-import type React from "react";
+import type React from "react"
 
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { useState, useEffect } from "react"
+import { Menu, X, Globe } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface NavItem {
-  name: string;
-  href: string;
+  name: string
+  href: string
 }
 
-export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+interface HeaderProps {
+  locale: string
+}
+
+export default function Header({ locale }: HeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [isScrolled, setIsScrolled] = useState<boolean>(false)  
+  const router = useRouter()
+
+  const translations = {
+    en: {
+      about: "ABOUT",
+      services: "SERVICES",
+      clients: "CLIENTS",
+      contact: "CONTACT",
+      languageButton: "Español",
+    },
+    es: {
+      about: "NOSOTROS",
+      services: "SERVICIOS",
+      clients: "CLIENTES",
+      contact: "CONTACTO",
+      languageButton: "English",
+    },
+  }
+
+  const t = translations[locale as keyof typeof translations] || translations.en
 
   const navItems: NavItem[] = [
-    { name: "ABOUT", href: "#about" },
-    { name: "SERVICES", href: "#services" },
-    { name: "CLIENTS", href: "#clients" },
-    { name: "CONTACT", href: "#contact" },
-  ];
+    { name: t.about, href: "#about" },
+    { name: t.services, href: "#services" },
+    { name: t.clients, href: "#clients" },
+    { name: t.contact, href: "#contact" },
+  ]
+
+  const toggleLanguage = () => {
+    const newLocale = locale === "en" ? "es" : "en"
+    router.push(`/${newLocale}`)
+  }
 
   const smoothScrollTo = (targetId: string) => {
-    const element = document.getElementById(targetId.replace("#", ""));
+    const element = document.getElementById(targetId.replace("#", ""))
     if (element) {
-      const headerHeight = 80; // Account for fixed header
-      const targetPosition = element.offsetTop - headerHeight;
+      const headerHeight = 80 // Account for fixed header
+      const targetPosition = element.offsetTop - headerHeight
 
       window.scrollTo({
         top: targetPosition,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
-    e.preventDefault();
-    smoothScrollTo(href);
-    setIsMenuOpen(false); // Close mobile menu if open
-  };
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault()
+    smoothScrollTo(href)
+    setIsMenuOpen(false) // Close mobile menu if open
+  }
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+      setIsScrolled(window.scrollY > 50)
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
+    window.addEventListener("scroll", handleScroll)
+    handleScroll()
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
     <>
@@ -75,11 +102,11 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <Link
-              href="/"
+              href={`/${locale}`}
               className="block w-[130px] md:w-[160px] h-[40px] md:h-[50px] relative transition-transform duration-300"
             >
               <Image
-                src="/meydey-logo.png"
+                src="/placeholder-logo.png"
                 alt="header logo"
                 fill
                 className="invert grayscale-100 object-contain"
@@ -101,6 +128,14 @@ export default function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#acf5fc] transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
+
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center space-x-2 text-sm font-light tracking-wider transition-all duration-300 relative group text-white hover:text-[#acf5fc] uppercase cursor-pointer px-3 py-1 rounded-full border border-white/20 hover:border-[#acf5fc]/50"
+            >
+              <Globe className="w-4 h-4" />
+              <span>{t.languageButton}</span>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -128,9 +163,7 @@ export default function Header() {
       {/* Mobile Overlay */}
       <div
         className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-all duration-500 md:hidden ${
-          isMenuOpen
-            ? "opacity-100 pointer-events-auto z-40"
-            : "opacity-0 pointer-events-none z-0"
+          isMenuOpen ? "opacity-100 pointer-events-auto z-40" : "opacity-0 pointer-events-none z-0"
         }`}
         onClick={() => setIsMenuOpen(false)}
       />
@@ -159,9 +192,7 @@ export default function Header() {
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
                 className={`text-lg font-light tracking-wider text-gray-800 hover:text-[#0067a2] transition-all duration-300 uppercase transform relative group cursor-pointer ${
-                  isMenuOpen
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-8 opacity-0"
+                  isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
                 }`}
                 style={{
                   transitionDelay: isMenuOpen ? `${index * 1 + 50}ms` : "0ms",
@@ -171,25 +202,34 @@ export default function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0067a2] transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
+
+            <button
+              onClick={toggleLanguage}
+              className={`flex items-center space-x-2 text-lg font-light tracking-wider text-gray-800 hover:text-[#0067a2] transition-all duration-300 uppercase transform relative group cursor-pointer ${
+                isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
+              }`}
+              style={{
+                transitionDelay: isMenuOpen ? `${navItems.length * 1 + 50}ms` : "0ms",
+              }}
+            >
+              <Globe className="w-5 h-5" />
+              <span>{t.languageButton}</span>
+            </button>
           </div>
 
           <div
             className={`mt-12 pt-8 border-t border-gray-200 transform transition-all duration-300 ${
-              isMenuOpen
-                ? "translate-x-0 opacity-100"
-                : "translate-x-8 opacity-0"
+              isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
             }`}
             style={{ transitionDelay: isMenuOpen ? "700ms" : "0ms" }}
           >
-            <p className="text-xs font-light tracking-widest text-gray-500 mb-2 uppercase">
-              MEYDEY
-            </p>
+            <p className="text-xs font-light tracking-widest text-gray-500 mb-2 uppercase">MEYDEY</p>
             <p className="text-sm font-light tracking-tight text-gray-700">
-              Innovation in Security Solutions
+              {locale === "es" ? "Innovación en Soluciones de Seguridad" : "Innovation in Security Solutions"}
             </p>
           </div>
         </div>
       </div>
     </>
-  );
+  )
 }

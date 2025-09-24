@@ -1,39 +1,32 @@
 "use client"
 import { motion } from "framer-motion"
-import { Instagram, Twitter, Facebook, MapPin, Phone } from "lucide-react"
+import { Instagram, MapPin, Phone, MessageCircle } from "lucide-react"
 import Image from "next/image"
+import { getTranslations } from "@/lib/translations"
 
-export function Footer() {
+interface FooterProps {
+  locale: string
+}
+
+export function Footer({ locale }: FooterProps) {
+  const t = getTranslations(locale)
   const currentYear = new Date().getFullYear()
 
   const footerLinks = {
-    Services: [
-      { name: "CCTV Systems", href: "#" },
-      { name: "Access Control", href: "#" },
-      { name: "Perimeter Security", href: "#" },
-      { name: "Fiber Optic Installation", href: "#" },
-      { name: "Network Solutions", href: "#" },
-    ],
-    Company: [
-      { name: "About Us", href: "#" },
-      { name: "Our Values", href: "#" },
-      { name: "Projects", href: "#" },
-      { name: "Careers", href: "#" },
-      { name: "News", href: "#" },
-    ],
-    Support: [
-      { name: "Contact", href: "#" },
-      { name: "Technical Support", href: "#" },
-      { name: "Maintenance", href: "#" },
-      { name: "Consultation", href: "#" },
-      { name: "Documentation", href: "#" },
+    [t.company]: [
+      { name: t.aboutUs, href: "#about" },
+      { name: t.services, href: "#services" },
+      { name: t.clients, href: "#clients" },
+      { name: t.contact, href: "#contact" },
     ],
   }
 
   const socialLinks = [
-    { name: "Instagram", icon: Instagram, href: "#" },
-    { name: "Twitter", icon: Twitter, href: "#" },
-    { name: "Facebook", icon: Facebook, href: "#" },
+    {
+      name: "Instagram",
+      icon: Instagram,
+      href: "https://www.instagram.com/meydey_innovacionensoluciones?utm_source=ig_web_button_share_sheet&igsh=MXV0OW50bDFzeDN6ZA==",
+    },
   ]
 
   return (
@@ -67,22 +60,34 @@ export function Footer() {
               </div>
 
               <div className="space-y-8">
-                <p className="text-white/80 text-base leading-relaxed font-light max-w-md">
-                  Mexican company with 8 years of experience, dedicated to solving security and technology needs. We
-                  develop comprehensive solutions with quality and innovation.
-                </p>
+                <p className="text-white/80 text-base leading-relaxed font-light max-w-md">{t.footerDescription}</p>
 
                 <div className="space-y-4">
                   <div className="flex items-start">
                     <MapPin size={18} className="mr-3 text-[#1b96a2] mt-0.5 flex-shrink-0" />
                     <div className="space-y-1">
-                      <p className="text-sm text-white/70 font-light">Headquarters: Colima, Colima</p>
-                      <p className="text-sm text-white/70 font-light">Branch: Bahía de Banderas, Nayarit</p>
+                      <p className="text-sm text-white/70 font-light">{t.headquarters}: Colima, Colima</p>
+                      <p className="text-sm text-white/70 font-light">
+                        {t.branchOffice}: Valentín Gómez Farías 201-C, Mezcales
+                        <br />
+                        Bahía de Banderas, Nayarit 63735
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <Phone size={18} className="mr-3 text-[#1b96a2] flex-shrink-0" />
-                    <p className="text-sm text-white/70 font-light">Nationwide Service Coverage</p>
+                    <p className="text-sm text-white/70 font-light">(312) 323 64 45</p>
+                  </div>
+                  <div className="flex items-center">
+                    <MessageCircle size={18} className="mr-3 text-[#25D366] flex-shrink-0" />
+                    <a
+                      href="https://wa.me/523221990247"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-white/70 font-light hover:text-[#25D366] transition-colors duration-200"
+                    >
+                      +52 322 199 0247
+                    </a>
                   </div>
                 </div>
 
@@ -145,16 +150,18 @@ export function Footer() {
           viewport={{ once: true }}
         >
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-            <p className="text-xs text-white/50 font-light">&copy; {currentYear} MEYDEY. All rights reserved.</p>
+            <p className="text-xs text-white/50 font-light">
+              &copy; {currentYear} MEYDEY. {t.allRightsReserved}.
+            </p>
             <div className="flex space-x-8">
               <a href="#" className="text-xs text-white/50 hover:text-[#1b96a2] transition-colors font-light">
-                Privacy Policy
+                {t.privacyPolicy}
               </a>
               <a href="#" className="text-xs text-white/50 hover:text-[#1b96a2] transition-colors font-light">
-                Terms of Service
+                {t.termsOfService}
               </a>
               <a href="#" className="text-xs text-white/50 hover:text-[#1b96a2] transition-colors font-light">
-                Cookies
+                {t.cookies}
               </a>
             </div>
           </div>

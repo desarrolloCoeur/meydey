@@ -4,43 +4,50 @@ import { motion } from "framer-motion"
 import { Shield, Award, Users, Zap, MapPin, Building2 } from "lucide-react"
 import { Reveal } from "./reveal"
 import Image from "next/image"
+import { getTranslations } from "@/lib/translations"
 
-export function AboutSection() {
+interface AboutSectionProps {
+  locale: string
+}
+
+export function AboutSection({ locale }: AboutSectionProps) {
+  const t = getTranslations(locale)
+
   const values = [
     {
       icon: Award,
-      title: "Excellence",
-      description: "Committed to delivering the highest quality security solutions with industry-leading standards",
+      title: t.excellence,
+      description: t.excellenceDesc,
     },
     {
       icon: Shield,
-      title: "Integrity",
-      description: "Building lasting trust through transparent and honest business practices",
+      title: t.integrity,
+      description: t.integrityDesc,
     },
     {
       icon: Users,
-      title: "Commitment",
-      description: "Dedicated to exceeding our clients' expectations with personalized service",
+      title: t.commitment,
+      description: t.commitmentDesc,
     },
     {
       icon: Zap,
-      title: "Innovation",
-      description: "Evolving with cutting-edge technology to provide advanced solutions",
+      title: t.innovation,
+      description: t.innovationDesc,
     },
   ]
 
   const locations = [
     {
       icon: Building2,
-      title: "Headquarters",
+      title: t.headquarters,
       location: "Colima, Colima",
-      description: "Main operations center",
+      description: t.mainOperationsCenter,
     },
     {
       icon: MapPin,
-      title: "Branch Office",
+      title: t.branchOffice,
       location: "Bahía de Banderas, Nayarit",
-      description: "Regional service hub",
+      description: t.regionalServiceHub,
     },
   ]
 
@@ -53,8 +60,8 @@ export function AboutSection() {
               <div className="grid lg:grid-cols-12 gap-16 items-end">
                 <div className="lg:col-span-8">
                   <h2 className="text-6xl lg:text-7xl font-light text-[#203c5c] tracking-tight leading-none mb-6">
-                    About us
-                  </h2>                  
+                    {t.aboutTitle}
+                  </h2>
                 </div>
                 <div className="lg:col-span-4">
                   <div className="w-full h-px bg-[#1b96a2]"></div>
@@ -65,19 +72,13 @@ export function AboutSection() {
             <div className="grid lg:grid-cols-12 gap-20 mb-32">
               <div className="lg:col-span-5 space-y-12">
                 <div>
-                  <h3 className="text-2xl font-medium text-[#203c5c] mb-8 tracking-tight">8 Years of Excellence</h3>
-                  <p className="text-lg text-gray-700 leading-relaxed mb-8">
-                    We are a Mexican company dedicated to solving needs in security and technology through comprehensive
-                    solutions and expert consulting.
-                  </p>
-                  <p className="text-base text-gray-600 leading-relaxed">
-                    Our nationwide service coverage ensures businesses across Mexico benefit from cutting-edge security
-                    technologies and expert guidance.
-                  </p>
+                  <h3 className="text-2xl font-medium text-[#203c5c] mb-8 tracking-tight">{t.aboutSubtitle}</h3>
+                  <p className="text-lg text-gray-700 leading-relaxed mb-8">{t.aboutDescription1}</p>
+                  <p className="text-base text-gray-600 leading-relaxed">{t.aboutDescription2}</p>
                 </div>
 
                 <div className="space-y-6">
-                  <h4 className="text-lg font-medium text-[#203c5c] tracking-tight">Locations</h4>
+                  <h4 className="text-lg font-medium text-[#203c5c] tracking-tight">{t.locations}</h4>
                   {locations.map((location, index) => (
                     <motion.div
                       key={location.title}
@@ -117,7 +118,7 @@ export function AboutSection() {
               <div className="grid lg:grid-cols-12 gap-16 items-end mb-16">
                 <div className="lg:col-span-6">
                   <h3 className="text-4xl lg:text-5xl font-light text-[#203c5c] tracking-tight leading-tight">
-                    Our Values
+                    {t.ourValues}
                   </h3>
                 </div>
                 <div className="lg:col-span-6">
