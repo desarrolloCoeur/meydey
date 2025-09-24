@@ -88,9 +88,6 @@ interface ClientsSectionProps {
 export function ClientsSection({ locale }: ClientsSectionProps) {
   const t = getTranslations(locale)
 
-  console.log("[v0] ClientsSection locale:", locale)
-  console.log("[v0] ClientsSection translations:", { title: t.clientsTitle, description: t.clientsDescription })
-
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
@@ -121,7 +118,6 @@ export function ClientsSection({ locale }: ClientsSectionProps) {
 
   const clientsPerSlide = 6
   const totalSlides = Math.ceil(clients.length / clientsPerSlide)
-  const visibleClients = clients.slice(currentIndex * clientsPerSlide, (currentIndex + 1) * clientsPerSlide)
 
   return (
     <section className="py-24 lg:py-32 bg-white relative overflow-hidden w-full">
@@ -163,10 +159,10 @@ export function ClientsSection({ locale }: ClientsSectionProps) {
                       return (
                         <div key={slideIndex} className="w-full flex-shrink-0">
                           <div className="grid grid-cols-3 gap-px bg-neutral-200">
-                            {slideClients.map((client, index) => (
+                            {slideClients.map((client) => (
                               <div
                                 key={client.id}
-                                className="relative bg-white flex items-center justify-center p-6 lg:p-8 relative overflow-hidden aspect-square"
+                                className="bg-white flex items-center justify-center p-6 lg:p-8 relative overflow-hidden aspect-square"
                               >
                                 <div className="absolute inset-0 ">
                                   <Image
