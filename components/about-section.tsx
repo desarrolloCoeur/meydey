@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Shield, Award, Users, Zap, MapPin, Building2 } from "lucide-react"
+import { Shield, Award, Users, Zap, Building2 } from "lucide-react"
 import { Reveal } from "./reveal"
 import Image from "next/image"
 import { getTranslations } from "@/lib/translations"
@@ -97,9 +97,9 @@ export function AboutSection({ locale }: AboutSectionProps) {
                 <div className="relative">
                   <div className="bg-white p-2">
                     <Image
-                      src="/modern-office-building.png"
+                      src="/assets/meydey.jpg"
                       alt="MEYDEY Security Operations Center"
-                      width={1920}
+                      width={900}
                       height={500}
                       className="w-full h-[400px] lg:h-[500px] object-cover"
                     />

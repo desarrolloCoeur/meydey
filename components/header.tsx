@@ -6,11 +6,12 @@ import { useState, useEffect } from "react";
 import { Menu, X, Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface NavItem {
   name: string;
   href: string;
+  isExternal?: boolean;
 }
 
 interface HeaderProps {
@@ -20,6 +21,7 @@ interface HeaderProps {
 export default function Header({ locale }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const pathname = usePathname();
   const router = useRouter();
 
   const translations = {
@@ -27,13 +29,15 @@ export default function Header({ locale }: HeaderProps) {
       about: "ABOUT",
       services: "SERVICES",
       clients: "CLIENTS",
+      blog: "BLOG",
       contact: "CONTACT",
       languageButton: "Español",
     },
     es: {
-      about: "NOSOTROS",
+      about: "ACERCA",
       services: "SERVICIOS",
       clients: "CLIENTES",
+      blog: "BLOG",
       contact: "CONTACTO",
       languageButton: "English",
     },
@@ -46,12 +50,18 @@ export default function Header({ locale }: HeaderProps) {
     { name: t.about, href: "#about" },
     { name: t.services, href: "#services" },
     { name: t.clients, href: "#clients" },
+    { name: t.blog, href: `/${locale}/blog`, isExternal: true },
     { name: t.contact, href: "#contact" },
   ];
 
   const toggleLanguage = () => {
     const newLocale = locale === "en" ? "es" : "en";
-    router.push(`/${newLocale}`);
+    if (pathname.includes("/blog")) {
+      const currentPath = pathname.replace(`/${locale}`, "");
+      router.push(`/${newLocale}${currentPath}`);
+    } else {
+      router.push(`/${newLocale}`);
+    }
   };
 
   const smoothScrollTo = (targetId: string) => {
@@ -69,8 +79,14 @@ export default function Header({ locale }: HeaderProps) {
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
+    href: string,
+    isExternal?: boolean
   ) => {
+    if (isExternal) {
+      setIsMenuOpen(false);
+      return;
+    }
+
     e.preventDefault();
     smoothScrollTo(href);
     setIsMenuOpen(false); // Close mobile menu if open
@@ -112,25 +128,36 @@ export default function Header({ locale }: HeaderProps) {
               <Image
                 src="/meydey-logo.png"
                 alt="MEYDEY"
-                fill                
+                fill
                 className="h-10 w-auto brightness-0 invert"
               />
             </Link>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className="text-sm font-light tracking-wider transition-all duration-300 relative group text-white hover:text-[#acf5fc] uppercase cursor-pointer"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#acf5fc] transition-all duration-300 group-hover:w-full"></span>
-              </a>
-            ))}
+          <div className="hidden xl:flex items-center space-x-8 lg:space-x-12">
+            {navItems.map((item) =>
+              item.isExternal ? (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-sm font-light tracking-wider transition-all duration-300 relative group text-white hover:text-[#acf5fc] uppercase cursor-pointer"
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#acf5fc] transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href, item.isExternal)}
+                  className="text-sm font-light tracking-wider transition-all duration-300 relative group text-white hover:text-[#acf5fc] uppercase cursor-pointer"
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#acf5fc] transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              )
+            )}
 
             <button
               onClick={toggleLanguage}
@@ -143,7 +170,7 @@ export default function Header({ locale }: HeaderProps) {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-full transition-all duration-300 hover:bg-white/10"
+            className="xl:hidden p-2 rounded-full transition-all duration-300 hover:bg-white/10"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -165,7 +192,7 @@ export default function Header({ locale }: HeaderProps) {
 
       {/* Mobile Overlay */}
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-all duration-500 md:hidden ${
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-all duration-500 xl:hidden ${
           isMenuOpen
             ? "opacity-100 pointer-events-auto z-40"
             : "opacity-0 pointer-events-none z-0"
@@ -175,7 +202,7 @@ export default function Header({ locale }: HeaderProps) {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white/95 backdrop-blur-md shadow-2xl transform transition-all duration-500 ease-in-out md:hidden z-50 ${
+        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white/95 backdrop-blur-md shadow-2xl transform transition-all duration-500 ease-in-out xl:hidden z-50 ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -191,24 +218,43 @@ export default function Header({ locale }: HeaderProps) {
           </div>
 
           <div className="flex flex-col space-y-8">
-            {navItems.map((item, index) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className={`text-lg font-light tracking-wider text-gray-800 hover:text-[#0067a2] transition-all duration-300 uppercase transform relative group cursor-pointer ${
-                  isMenuOpen
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-8 opacity-0"
-                }`}
-                style={{
-                  transitionDelay: isMenuOpen ? `${index * 1 + 50}ms` : "0ms",
-                }}
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0067a2] transition-all duration-300 group-hover:w-full"></span>
-              </a>
-            ))}
+            {navItems.map((item, index) =>
+              item.isExternal ? (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-lg font-light tracking-wider text-gray-800 hover:text-[#0067a2] transition-all duration-300 uppercase transform relative group cursor-pointer ${
+                    isMenuOpen
+                      ? "translate-x-0 opacity-100"
+                      : "translate-x-8 opacity-0"
+                  }`}
+                  style={{
+                    transitionDelay: isMenuOpen ? `${index * 1 + 50}ms` : "0ms",
+                  }}
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0067a2] transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href, item.isExternal)}
+                  className={`text-lg font-light tracking-wider text-gray-800 hover:text-[#0067a2] transition-all duration-300 uppercase transform relative group cursor-pointer ${
+                    isMenuOpen
+                      ? "translate-x-0 opacity-100"
+                      : "translate-x-8 opacity-0"
+                  }`}
+                  style={{
+                    transitionDelay: isMenuOpen ? `${index * 1 + 50}ms` : "0ms",
+                  }}
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0067a2] transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              )
+            )}
 
             <button
               onClick={toggleLanguage}
