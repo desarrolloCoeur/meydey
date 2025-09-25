@@ -3,11 +3,23 @@
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 
+function getBrowserLanguage(): string {
+  if (typeof window === "undefined") return "en"
+
+  // Get browser language
+  const browserLang = navigator.language || navigator.languages?.[0] || "en"
+  const langCode = browserLang.split("-")[0].toLowerCase()
+  
+  if (langCode === "es") return "es"
+  return "en"
+}
+
 export default function RootPage() {
   const router = useRouter()
 
   useEffect(() => {
-    router.replace("/en")
+    const detectedLocale = getBrowserLanguage()
+    router.replace(`/${detectedLocale}`)
   }, [router])
 
   return (
