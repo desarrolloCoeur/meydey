@@ -50,10 +50,15 @@ const blogPosts: Record<string, BlogPost> = {
   },
 }
 
+const locales = ["en", "es"]
+
 export async function generateStaticParams() {
-  return Object.keys(blogPosts).map((slug) => ({
-    slug,
-  }))
+  return locales.flatMap((locale) =>
+    Object.keys(blogPosts).map((slug) => ({
+      locale,
+      slug,
+    }))
+  )
 }
 
 export async function generateMetadata({
@@ -115,7 +120,9 @@ export default function BlogPostPage({
         >
           <div className="absolute inset-0 bg-black/60"></div>
           <div className="relative z-10 text-left text-white px-4">
-            <h1 className="text-4xl md:text-6xl font-light leading-tight max-w-4xl">{title}</h1>
+            <h1 className="text-4xl md:text-6xl font-light leading-tight max-w-4xl">
+              {title}
+            </h1>
           </div>
         </section>
 
@@ -128,14 +135,17 @@ export default function BlogPostPage({
             >
               ← {t.backToBlog}
             </Link>
-            <br/>
+            <br />
             <time className="text-sm text-gray-500 font-light">
               {t.publishedOn}{" "}
-              {new Date(post.date).toLocaleDateString(params.locale === "es" ? "es-ES" : "en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {new Date(post.date).toLocaleDateString(
+                params.locale === "es" ? "es-ES" : "en-US",
+                {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                }
+              )}
             </time>
           </div>
         </section>
@@ -153,7 +163,10 @@ export default function BlogPostPage({
             {/* Additional Images */}
             <div className="grid md:grid-cols-2 gap-8 mt-16">
               {post.images.slice(1).map((image, index) => (
-                <div key={index} className="aspect-[4/3] overflow-hidden relative">
+                <div
+                  key={index}
+                  className="aspect-[4/3] overflow-hidden relative"
+                >
                   <Image
                     src={image || "/placeholder.svg"}
                     alt={`${title} - Image ${index + 2}`}
