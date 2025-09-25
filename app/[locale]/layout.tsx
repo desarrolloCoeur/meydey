@@ -75,8 +75,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
 
   return (
-    <html lang={locale} className={inter.className}>
-      <body className="font-sans bg-neutral-50 text-neutral-900 overflow-x-hidden antialiased">{children}</body>
-    </html>
+    <div lang={locale} className={inter.className}>
+      <div className="font-sans bg-neutral-50 text-neutral-900 overflow-x-hidden antialiased">{children}</div>
+    </div>
   )
 }
