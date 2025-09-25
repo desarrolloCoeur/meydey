@@ -1,92 +1,19 @@
-import { getTranslations } from "@/lib/translations"
+"use client"
+import { use } from "react"
 import Link from "next/link"
-import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Header from "@/components/header"
-import { Footer } from "@/components/footer"
+import { getTranslations } from "@/lib/translations"
+import { blogPosts } from "./data"
 import Image from "next/image"
 
-interface BlogPost {
-  slug: string
-  title: string
-  content: string
-  date: string
-  images: string[]
-}
-
-const blogPosts: Record<string, BlogPost> = {
-  "controles-acceso-fraccionamientos": {
-    slug: "controles-acceso-fraccionamientos",
-    title: "blog1Title",
-    content: "blog1Content",
-    date: "2024-01-15",
-    images: [
-      "/assets/blog/blog-1/Chapa electrica.jpg",
-      "/assets/blog/blog-1/Compress.jpg",
-      "/assets/blog/blog-1/sauce y cedro.jpeg",
-    ],
-  },
-  "cctv-monitoreo-inteligente-negocios": {
-    slug: "cctv-monitoreo-inteligente-negocios",
-    title: "blog2Title",
-    content: "blog2Content",
-    date: "2024-01-10",
-    images: [
-      "/assets/blog/blog-2/Barreras automatizadas.jpg",
-      "/assets/blog/blog-2/green.png",
-      "/assets/blog/blog-2/sling.jpg",
-    ],
-  },
-  "redes-seguras-empresas": {
-    slug: "redes-seguras-empresas",
-    title: "blog3Title",
-    content: "blog3Content",
-    date: "2024-01-05",
-    images: ["/assets/blog/blog-3/anthena.jpg", "/assets/blog/blog-3/fix.jpg", "/assets/blog/blog-3/look.jpg"],
-  },
-}
-
-export async function generateStaticParams() {
-  return Object.keys(blogPosts).map((slug) => ({
-    slug,
-  }))
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string; slug: string }>
-}): Promise<Metadata> {
-  const { locale, slug } = await params
-  const t = getTranslations(locale)
-  const post = blogPosts[slug]
-
-  if (!post) {
-    return {
-      title: "Blog Post Not Found | MEYDEY",
-    }
-  }
-
-  const title = t[post.title as keyof typeof t] as string
-
-  return {
-    title: `${title} | MEYDEY Blog`,
-    description: title,
-    openGraph: {
-      title: `${title} | MEYDEY Blog`,
-      description: title,
-      type: "article",
-      publishedTime: post.date,
-    },
-  }
-}
-
-export default async function BlogPostPage({
+export default function BlogPostClient({
   params,
 }: {
   params: Promise<{ locale: string; slug: string }>
 }) {
-  const { locale, slug } = await params
+  const resolvedParams = use(params)
+  const { locale, slug } = resolvedParams
   const t = getTranslations(locale)
   const post = blogPosts[slug]
 
@@ -104,7 +31,7 @@ export default async function BlogPostPage({
       <main className="min-h-screen bg-white">
         {/* Hero Section with Background Image */}
         <section
-          className="relative h-[500px] flex items-center justify-center"
+          className="relative h-[300px] flex items-center justify-center"
           style={{
             backgroundImage: `url('${post.images[0]}')`,
             backgroundSize: "cover",
@@ -112,7 +39,7 @@ export default async function BlogPostPage({
           }}
         >
           <div className="absolute inset-0 bg-black/60"></div>
-          <div className="relative z-10 text-left text-white px-4">
+          <div className="relative z-10 text-center text-white px-4">
             <h1 className="text-4xl md:text-6xl font-light leading-tight max-w-4xl">{title}</h1>
           </div>
         </section>
@@ -126,7 +53,7 @@ export default async function BlogPostPage({
             >
               ← {t.backToBlog}
             </Link>
-            <br />
+
             <time className="text-sm text-gray-500 font-light">
               {t.publishedOn}{" "}
               {new Date(post.date).toLocaleDateString(locale === "es" ? "es-ES" : "en-US", {
@@ -163,7 +90,6 @@ export default async function BlogPostPage({
             </div>
           </div>
         </section>
-        <Footer locale={locale} />
       </main>
     </>
   )

@@ -1,130 +1,50 @@
-import { getTranslations } from "@/lib/translations"
-import Link from "next/link"
-import type { Metadata } from "next"
+"use client"
 import Header from "@/components/header"
-import Image from "next/image"
+import { HeroSection } from "@/components/hero-section"
+import { FeaturedProducts } from "@/components/featured-products"
+import { ClientsSection } from "@/components/clients-section"
+import { AboutSection } from "@/components/about-section"
+import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
+import Banner from "@/components/banner-1"
+import { GallerySection } from "@/components/gallery-section"
+import QualityBanner from "@/components/quality-banner"
+import { use } from "react"
+import type { Locale } from "@/lib/translations"
 
-interface BlogPost {
-  slug: string
-  title: string
-  excerpt: string
-  date: string
-  image: string
+type Props = {
+  params: Promise<{ locale: string }>
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string }
-}): Promise<Metadata> {
-  const t = getTranslations(params.locale)
+export default function HomePage({ params }: Props) {
+  const resolvedParams = params instanceof Promise ? use(params) : params
+  const { locale: rawLocale } = resolvedParams
 
-  return {
-    title: `${t.blogTitle} | MEYDEY`,
-    description: t.blogDescription,
-    openGraph: {
-      title: `${t.blogTitle} | MEYDEY`,
-      description: t.blogDescription,
-      type: "website",
-    },
-  }
-}
-
-export default function BlogPage({ params }: { params: { locale: string } }) {
-  const t = getTranslations(params.locale)
-
-  const blogPosts: BlogPost[] = [
-    {
-      slug: "controles-acceso-fraccionamientos",
-      title: t.blog1Title,
-      excerpt: t.blog1Excerpt,
-      date: "2024-01-15",
-      image: "/assets/blog/blog-1/Chapa electrica.jpg",
-    },
-    {
-      slug: "cctv-monitoreo-inteligente-negocios",
-      title: t.blog2Title,
-      excerpt: t.blog2Excerpt,
-      date: "2024-01-10",
-      image: "/assets/blog/blog-2/Barreras automatizadas.jpg",
-    },
-    {
-      slug: "redes-seguras-empresas",
-      title: t.blog3Title,
-      excerpt: t.blog3Excerpt,
-      date: "2024-01-05",
-      image: "/assets/blog/blog-3/anthena.jpg",
-    },
-  ]
+  const locale: Locale = rawLocale === "es" || rawLocale === "en" ? rawLocale : "en"
 
   return (
     <>
-      <Header locale={params.locale} />
-
-      <main className="min-h-screen bg-white">
-        {/* Hero Section with Background Image */}
-        <section
-          className="relative h-[500px] flex items-center justify-center"
-          style={{
-            backgroundImage: "url('/assets/16.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div className="absolute inset-0 bg-black/60"></div>
-          <div className="relative z-10 text-center text-white px-4">
-            <h1 className="text-5xl md:text-7xl font-light mb-6">{t.blogTitle}</h1>
-            <p className="text-xl font-light max-w-2xl mx-auto text-sky-200">{t.blogDescription}</p>
-          </div>
-        </section>
-
-        {/* Blog Posts Grid */}
-        <section className="py-16 px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-              {blogPosts.map((post) => (
-                <article key={post.slug} className="group">
-                  <Link href={`/${params.locale}/blog/${post.slug}`}>
-                    <div className="space-y-6 ">
-                      {/* Image */}
-                      <div className="aspect-[3/2] overflow-hidden relative">
-                        <Image
-                          src={post.image || "/placeholder.svg"}
-                          alt={post.title}
-                          fill
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      </div>
-
-                      {/* Content */}
-                      <div className="space-y-4">
-                        <time className="text-sm text-gray-500 font-light">
-                          {new Date(post.date).toLocaleDateString(params.locale === "es" ? "es-ES" : "en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </time>
-
-                        <h2 className="text-2xl font-light text-gray-900 group-hover:text-sky-600 transition-colors">
-                          {post.title}
-                        </h2>
-
-                        <p className="text-gray-600 font-light leading-relaxed">{post.excerpt}</p>
-
-                        <div className="pt-2">
-                          <span className="text-sky-600 font-light group-hover:underline">{t.readMore} →</span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-        <Footer locale={params.locale} />
+      <Header locale={locale} />
+      <main className="min-h-screen">
+        <HeroSection locale={locale} />
+        <div id="about">
+          <AboutSection locale={locale} />
+        </div>
+        <Banner locale={locale} />
+        <div id="services">
+          <FeaturedProducts locale={locale} />
+        </div>
+        <QualityBanner locale={locale} />
+        <div id="gallery">
+          <GallerySection locale={locale} />
+        </div>
+        <div id="clients">
+          <ClientsSection locale={locale} />
+        </div>
+        <div id="contact">
+          <ContactSection locale={locale} />
+        </div>
+        <Footer locale={locale} />
       </main>
     </>
   )

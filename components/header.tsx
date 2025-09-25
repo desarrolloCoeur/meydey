@@ -47,11 +47,11 @@ export default function Header({ locale }: HeaderProps) {
     translations[locale as keyof typeof translations] || translations.en;
 
   const navItems: NavItem[] = [
-    { name: t.about, href: "#about" },
-    { name: t.services, href: "#services" },
-    { name: t.clients, href: "#clients" },
+    { name: t.about, href: `/${locale}/#about`, isExternal: true },
+    { name: t.services, href: `/${locale}/#services`, isExternal: true },
+    { name: t.clients, href: `/${locale}/#clients`, isExternal: true },
     { name: t.blog, href: `/${locale}/blog`, isExternal: true },
-    { name: t.contact, href: "#contact" },
+    { name: t.contact, href: `/${locale}/#contact`, isExternal: true },
   ];
 
   const toggleLanguage = () => {
