@@ -405,7 +405,7 @@ export const translations = {
     bannerContact: "Contactar",
 
     // Quality Services Banner
-    qualityBannerTitle: "Servicios de Calidad en TI",
+    qualityBannerTitle: "Servicios de Calidad personalizados",
     qualityBannerDescription:
       "Somos líderes en soluciones tecnológicas para condominios, hotelería y constructoras. Nuestra experiencia nos permite adaptarnos a las necesidades específicas de cada cliente, entregando soluciones personalizadas que superan las expectativas.",
     qualityBannerCondos: "Condominios",

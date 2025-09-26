@@ -150,7 +150,7 @@ export const translations = {
     bannerContact: "Contact",
 
     // Quality Services Banner
-    qualityBannerTitle: "Quality IT Services",
+    qualityBannerTitle: "Custom quality services",
     qualityBannerDescription:
       "We are leaders in technology solutions for condominiums, hotels, and construction companies. Our expertise allows us to adapt to each client's specific needs, delivering customized solutions that exceed expectations.",
     qualityBannerCondos: "Condominiums",
@@ -162,7 +162,7 @@ export const translations = {
 
     // Gallery Section
     galleryLabel: "Our Projects",
-    galleryTitle: "Security Solutions in Action",
+    galleryTitle: "We protect companies with practical and reliable solutions.",
     galleryDescription:
       "Real security installations and technology implementations across Mexico. See how we protect businesses with practical, reliable solutions.",
     galleryPrevious: "Previous image",
@@ -405,7 +405,7 @@ export const translations = {
     bannerContact: "Contactar",
 
     // Quality Services Banner
-    qualityBannerTitle: "Servicios de Calidad en TI",
+    qualityBannerTitle: "Servicios de Calidad personalizados",
     qualityBannerDescription:
       "Somos líderes en soluciones tecnológicas para condominios, hotelería y constructoras. Nuestra experiencia nos permite adaptarnos a las necesidades específicas de cada cliente, entregando soluciones personalizadas que superan las expectativas.",
     qualityBannerCondos: "Condominios",
@@ -417,7 +417,7 @@ export const translations = {
 
     // Gallery Section
     galleryLabel: "Nuestros Proyectos",
-    galleryTitle: "Soluciones de Seguridad en Acción",
+    galleryTitle: "Protegemos empresas con soluciones prácticas y confiables.",
     galleryDescription:
       "Instalaciones reales de seguridad e implementaciones tecnológicas en México. Ve cómo protegemos empresas con soluciones prácticas y confiables.",
     galleryPrevious: "Imagen anterior",

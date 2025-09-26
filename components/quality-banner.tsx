@@ -31,22 +31,22 @@ export default function QualityBanner({ locale }: QualityBannerProps) {
           {/* Middle column - content */}
           <div className="col-span-12 md:col-span-11 space-y-8">
             <h2 className="text-5xl md:text-7xl font-light tracking-tight text-white uppercase">
-              <span className="text-sky-600">{t.qualityBannerTitle}</span>
+              <span className="text-sky-300">{t.qualityBannerTitle}</span>
             </h2>
 
             <p className="text-xl text-gray-200 max-w-2xl font-light">{t.qualityBannerDescription}</p>
 
             <div className="grid md:grid-cols-3 gap-8 pt-8">
               <div>
-                <h3 className="text-lg font-light text-sky-400 mb-2">{t.qualityBannerCondos}</h3>
+                <h3 className="text-lg font-light text-sky-200 mb-2">{t.qualityBannerCondos}</h3>
                 <p className="text-sm text-gray-300 font-light">{t.qualityBannerCondosDesc}</p>
               </div>
               <div>
-                <h3 className="text-lg font-light text-sky-400 mb-2">{t.qualityBannerHotels}</h3>
+                <h3 className="text-lg font-light text-sky-200 mb-2">{t.qualityBannerHotels}</h3>
                 <p className="text-sm text-gray-300 font-light">{t.qualityBannerHotelsDesc}</p>
               </div>
               <div>
-                <h3 className="text-lg font-light text-sky-400 mb-2">{t.qualityBannerConstruction}</h3>
+                <h3 className="text-lg font-light text-sky-200 mb-2">{t.qualityBannerConstruction}</h3>
                 <p className="text-sm text-gray-300 font-light">{t.qualityBannerConstructionDesc}</p>
               </div>
             </div>

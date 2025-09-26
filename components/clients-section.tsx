@@ -1,9 +1,6 @@
 "use client"
 import Image from "next/image"
-
-import { useState, useEffect } from "react"
 import { Reveal } from "./reveal"
-import { ChevronLeft, ChevronRight } from "lucide-react"
 import { getTranslations, type Locale } from "@/lib/translations"
 
 const clients = [
@@ -88,37 +85,6 @@ interface ClientsSectionProps {
 export function ClientsSection({ locale }: ClientsSectionProps) {
   const t = getTranslations(locale)
 
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-
-  useEffect(() => {
-    if (!isAutoPlaying) return
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % Math.ceil(clients.length / 6))
-    }, 4000)
-
-    return () => clearInterval(interval)
-  }, [isAutoPlaying])
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.ceil(clients.length / 6))
-    setIsAutoPlaying(false)
-  }
-
-  const goToPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + Math.ceil(clients.length / 6)) % Math.ceil(clients.length / 6))
-    setIsAutoPlaying(false)
-  }
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index)
-    setIsAutoPlaying(false)
-  }
-
-  const clientsPerSlide = 6
-  const totalSlides = Math.ceil(clients.length / clientsPerSlide)
-
   return (
     <section className="py-24 lg:py-32 bg-white relative overflow-hidden w-full">
       <div className="w-full relative z-10">
@@ -141,78 +107,43 @@ export function ClientsSection({ locale }: ClientsSectionProps) {
             </Reveal>
           </div>
 
+          {/* Infinite scrolling logo stripe */}
           <div className="flex items-center w-full relative">
             <Reveal>
               <div className="w-[100vw] lg:w-[50vw] relative">
-                {/* Carousel container */}
-                <div className="overflow-hidden">
-                  <div
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                  >
-                    {Array.from({ length: totalSlides }).map((_, slideIndex) => {
-                      const slideClients = clients.slice(
-                        slideIndex * clientsPerSlide,
-                        (slideIndex + 1) * clientsPerSlide,
-                      )
-
-                      return (
-                        <div key={slideIndex} className="w-full flex-shrink-0">
-                          <div className="grid grid-cols-3 gap-px bg-neutral-200">
-                            {slideClients.map((client) => (
-                              <div
-                                key={client.id}
-                                className="bg-white flex items-center justify-center p-6 lg:p-8 relative overflow-hidden aspect-square"
-                              >
-                                <div className="absolute inset-0 ">
-                                  <Image
-                                    src={client.backgroundImage || "/placeholder.svg"}
-                                    alt=""
-                                    fill
-                                    className="object-cover"
-                                  />
-                                </div>
-                                <div className="absolute w-full h-full left-0 top-0 backdrop-blur-sm" />
-                                <Image
-                                  src={client.logo || "/placeholder.svg"}
-                                  alt={client.name}
-                                  width={220}
-                                  height={180}
-                                  className="w-full h-full object-contain relative z-10"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    })}
+                <div className="overflow-hidden bg-white py-12">
+                  <div className="flex animate-scroll-rtl">
+                    {/* First set of logos */}
+                    {clients.map((client) => (
+                      <div
+                        key={`first-${client.id}`}
+                        className="flex-shrink-0 w-40 h-24 mx-8 flex items-center justify-center hover:scale-105 transition-all duration-300"
+                      >
+                        <Image
+                          src={client.logo || "/placeholder.svg"}
+                          alt={client.name}
+                          width={140}
+                          height={70}
+                          className="w-full h-full object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+                        />
+                      </div>
+                    ))}
+                    {/* Duplicate set for seamless loop */}
+                    {clients.map((client) => (
+                      <div
+                        key={`second-${client.id}`}
+                        className="flex-shrink-0 w-40 h-24 mx-8 flex items-center justify-center hover:scale-105 transition-all duration-300"
+                      >
+                        <Image
+                          src={client.logo || "/placeholder.svg"}
+                          alt={client.name}
+                          width={140}
+                          height={70}
+                          className="w-full h-full object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+                        />
+                      </div>
+                    ))}
                   </div>
-                </div>
-
-                <button
-                  onClick={goToPrev}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#203c5c] hover:bg-[#1b96a2] text-white p-2 rounded-full transition-colors duration-200 z-10"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-
-                <button
-                  onClick={goToNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#203c5c] hover:bg-[#1b96a2] text-white p-2 rounded-full transition-colors duration-200 z-10"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-
-                <div className="flex justify-center mt-6 space-x-2">
-                  {Array.from({ length: totalSlides }).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => goToSlide(index)}
-                      className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                        index === currentIndex ? "bg-[#1b96a2]" : "bg-neutral-300 hover:bg-neutral-400"
-                      }`}
-                    />
-                  ))}
                 </div>
               </div>
             </Reveal>
@@ -237,6 +168,22 @@ export function ClientsSection({ locale }: ClientsSectionProps) {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes scroll-rtl {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+        
+        .animate-scroll-rtl {
+          animation: scroll-rtl 60s linear infinite;
+          width: 200%;
+        }
+      `}</style>
     </section>
   )
 }

@@ -11,6 +11,7 @@ import { GallerySection } from "@/components/gallery-section"
 import QualityBanner from "@/components/quality-banner"
 import { use } from "react"
 import type { Locale } from "@/lib/translations"
+import WhastappButton from "@/components/WhastappButton"
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -45,6 +46,7 @@ export default function HomePage({ params }: Props) {
           <ContactSection locale={locale} />
         </div>
         <Footer locale={locale} />
+        <WhastappButton/>
       </main>
     </>
   )
