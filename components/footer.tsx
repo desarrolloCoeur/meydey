@@ -81,7 +81,7 @@ export function Footer({ locale }: FooterProps) {
                       rel="noopener noreferrer"
                       className="text-sm text-white/70 font-light hover:text-[#25D366] transition-colors duration-200"
                     >
-                      +52 322 199 0247
+                      +52 (322) 199 0247
                     </a>
                   </div>
                 </div>

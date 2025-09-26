@@ -7,73 +7,67 @@ const clients = [
   {
     id: "coca-cola",
     name: "Coca-Cola",
-    logo: "/coca-cola-logo.png",
+    logo: "/assets/clients/11.png",
     backgroundImage: "/beverage-factory-production-line.png",
   },
   {
     id: "colima-government",
     name: "Government of Colima",
-    logo: "/government-of-colima-logo.png",
+    logo: "/assets/clients/2.png",
     backgroundImage: "/modern-office-building.png",
   },
   {
     id: "tigres",
     name: "Tigres",
-    logo: "/tigres-logo.png",
+    logo: "/assets/clients/Logo tigres.png",
     backgroundImage: "/placeholder-cjfln.png",
   },
   {
     id: "grand-sirenis",
     name: "Grand Sirenis Hotels & Resorts",
-    logo: "/grand-sirenis-hotels-logo.png",
+    logo: "/assets/clients/5.png",
     backgroundImage: "/placeholder-yoa2s.png",
   },
   {
     id: "villa-valencia",
     name: "Villa La Valencia Beach Resort & Spa",
-    logo: "/villa-la-valencia-logo.png",
+    logo: "/assets/clients/10.png",
     backgroundImage: "/beach-resort-sunset-ocean.png",
   },
   {
     id: "dreams-resorts",
     name: "Dreams Resorts & Spas",
-    logo: "/dreams-resorts-logo.png",
+    logo: "/assets/clients/3.png",
     backgroundImage: "/spa-wellness-relaxation.png",
   },
   {
     id: "villa-group",
     name: "The Villa Group Beach Resorts & Spas",
-    logo: "/villa-group-resorts-logo.png",
+    logo: "/assets/clients/9.png",
     backgroundImage: "/beachfront-villa-palms.png",
-  },
-  {
-    id: "hotel-mousai",
-    name: "Hotel Mousai",
-    logo: "/hotel-mousai-luxury-logo.png",
-    backgroundImage: "/luxury-hotel-lobby-modern.png",
   },
   {
     id: "hyatt-ziva",
     name: "Hyatt Ziva",
-    logo: "/hyatt-ziva-logo.png",
+    logo: "/assets/clients/6.png",
     backgroundImage: "/hotel-infinity-pool-ocean-view.png",
   },
   {
     id: "paradise-village",
     name: "Paradise Village Beach Resort & Spa",
-    logo: "/paradise-village-resort-logo.png",
+    logo: "/assets/clients/7.png",
     backgroundImage: "/tropical-paradise-resort.png",
   },
   {
     id: "altozano",
     name: "Altozano",
-    logo: "/altozano-logo.png",
+    logo: "/assets/clients/1.png",
     backgroundImage: "/modern-residential-development.png",
   },
   {
     id: "seguros-el-potosi",
     name: "Seguros El Potosí",
-    logo: "/seguros-el-potosi-logo.png",
+    logo: "/assets/clients/8.png",
     backgroundImage: "/insurance-office-professional.png",
   },
 ]
@@ -117,7 +111,7 @@ export function ClientsSection({ locale }: ClientsSectionProps) {
                     {clients.map((client) => (
                       <div
                         key={`first-${client.id}`}
-                        className="flex-shrink-0 w-40 h-24 mx-8 flex items-center justify-center hover:scale-105 transition-all duration-300"
+                        className="flex-shrink-0 w-65 h-49 mx-2 flex items-center justify-center hover:scale-125 transition-all duration-300"
                       >
                         <Image
                           src={client.logo || "/placeholder.svg"}
@@ -180,7 +174,7 @@ export function ClientsSection({ locale }: ClientsSectionProps) {
         }
         
         .animate-scroll-rtl {
-          animation: scroll-rtl 60s linear infinite;
+          animation: scroll-rtl 30s linear infinite;
           width: 200%;
         }
       `}</style>
