@@ -2,6 +2,7 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 function getBrowserLanguage(): string {
   if (typeof window === "undefined") return "en"
@@ -9,7 +10,7 @@ function getBrowserLanguage(): string {
   // Get browser language
   const browserLang = navigator.language || navigator.languages?.[0] || "en"
   const langCode = browserLang.split("-")[0].toLowerCase()
-  
+
   if (langCode === "es") return "es"
   return "en"
 }
@@ -23,28 +24,24 @@ export default function RootPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="text-center">
-        <div className="relative mb-8">
-          {/* Main rotating square */}
-          <div className="w-16 h-16 border-2 border-foreground/20 mx-auto relative">
-            <div className="absolute inset-0 border-t-2 border-foreground animate-spin"></div>
+    <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      <div className="text-center relative z-10">
+        <div className="mb-12">
+          <div className="relative w-[250px] h-[120px] mx-auto mb-8 scale-125">
+            <Image src="/meydey-logo.png" alt="MEYDEY" fill className="object-contain" priority />
           </div>
-
-          {/* Secondary geometric elements */}
-          <div className="absolute -top-2 -left-2 w-4 h-4 border border-foreground/30 animate-pulse"></div>
-          <div className="absolute -bottom-2 -right-2 w-3 h-3 bg-foreground/20 animate-pulse delay-300"></div>
         </div>
 
-        {/* MEYDEY branding */}
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-wider text-foreground">MEYDEY</h1>
-          <div className="flex items-center justify-center space-x-1">
-            <div className="w-2 h-2 bg-foreground/60 animate-pulse"></div>
-            <div className="w-2 h-2 bg-foreground/60 animate-pulse delay-150"></div>
-            <div className="w-2 h-2 bg-foreground/60 animate-pulse delay-300"></div>
+        <div className="space-y-4">
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-sky-700 animate-pulse"></div>
+            <div className="w-2 h-2 rounded-full bg-sky-700 animate-pulse" style={{ animationDelay: "0.2s" }}></div>
+            <div className="w-2 h-2 rounded-full bg-sky-700 animate-pulse" style={{ animationDelay: "0.4s" }}></div>
           </div>
-          <p className="text-sm text-muted-foreground font-light tracking-wide">Cargando experiencia de seguridad</p>
+          <p className="text-sm text-muted-foreground font-light tracking-[0.2em] uppercase">
+            Cargando experiencia de seguridad
+          </p>
         </div>
       </div>
     </div>
